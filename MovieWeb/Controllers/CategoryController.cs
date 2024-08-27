@@ -36,6 +36,7 @@ namespace MovieWeb.Controllers
             {
                 _dbContext.Categories.Add(category);
                 _dbContext.SaveChanges();
+                TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
             return View();
@@ -72,6 +73,7 @@ namespace MovieWeb.Controllers
             {
                 _dbContext.Categories.Update(category);
                 _dbContext.SaveChanges();
+                TempData["success"] = "Category Edited successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
             return View();
@@ -100,6 +102,7 @@ namespace MovieWeb.Controllers
 
             _dbContext.Categories.Remove(obj); // delete the obj
             _dbContext.SaveChanges();
+            TempData["success"] = "Category Deleted successfully";
             return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
 
             
