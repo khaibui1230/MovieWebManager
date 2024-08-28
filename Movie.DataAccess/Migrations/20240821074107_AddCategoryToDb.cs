@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MovieWeb.Migrations
+namespace Movie.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCategoryToDb : Migration

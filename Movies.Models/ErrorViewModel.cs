@@ -1,4 +1,4 @@
-namespace MovieWeb.Models
+namespace Movie.Models
 {
     public class ErrorViewModel
     {

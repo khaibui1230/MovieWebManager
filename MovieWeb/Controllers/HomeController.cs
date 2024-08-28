@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MovieWeb.Models;
+using Movie.Models;
 using System.Diagnostics;
 
 namespace MovieWeb.Controllers

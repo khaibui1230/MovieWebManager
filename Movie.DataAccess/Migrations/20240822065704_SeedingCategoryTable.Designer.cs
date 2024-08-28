@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MovieWeb.Data;
+using Movie.DataAccess.Data;
+
 
 #nullable disable
 
-namespace MovieWeb.Migrations
+namespace Movie.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240822065704_SeedingCategoryTable")]

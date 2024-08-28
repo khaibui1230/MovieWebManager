@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieWeb.Models;
+using Movie.Models;
 
-namespace MovieWeb.Data
+
+namespace Movie.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
