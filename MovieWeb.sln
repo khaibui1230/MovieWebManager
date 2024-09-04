@@ -5,11 +5,11 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWeb", "MovieWeb\MovieWeb.csproj", "{AB90EF31-A024-4C1A-9838-85BBE10A8559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.DataAccess", "Movie.DataAccess\Movie.DataAccess.csproj", "{DE258077-D398-41D7-A2BB-10535043C66E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.DataAccess", "Movie.DataAccess\Movie.DataAccess.csproj", "{DE258077-D398-41D7-A2BB-10535043C66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Models", "Movies.Models\Movie.Models.csproj", "{D6F6E1E6-7195-4032-BB25-EB9D59713F2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Models", "Movies.Models\Movie.Models.csproj", "{D6F6E1E6-7195-4032-BB25-EB9D59713F2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Untility", "Movie.Untility\Movie.Untility.csproj", "{80E6914D-0F0D-4E8E-BFA1-052D25F8FA5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Untility", "Movie.Untility\Movie.Untility.csproj", "{80E6914D-0F0D-4E8E-BFA1-052D25F8FA5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

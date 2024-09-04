@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movie.DataAccess.Data;
+using Movie.DataAccess.Repository.IRepository;
 using Movie.Models;
 
 
@@ -7,15 +8,15 @@ namespace MovieWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public CategoryController(ApplicationDbContext dbContext)
+        private readonly IUnitOfWork _unitOfWork;
+         
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> objCategoryList = _dbContext.Categories.ToList();
+            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -35,8 +36,8 @@ namespace MovieWeb.Controllers
             //  check the fied input is  valid
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Add(category);
-                _dbContext.SaveChanges();
+                _unitOfWork.Category.Add(category);
+                _unitOfWork.Category.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
@@ -53,7 +54,7 @@ namespace MovieWeb.Controllers
             // load the database of Sql server
             //Category? categoryFromDb = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
             //Category? categoryFromDb = _dbContext.Categories.Where(u => u.Id == id).FirstOrDefault();
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u=>u.Id == id);    
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -72,8 +73,8 @@ namespace MovieWeb.Controllers
             //  check the fied input is  valid
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Update(category);
-                _dbContext.SaveChanges();
+                _unitOfWork.Category.Update(category);
+                _unitOfWork.Category.Save();
                 TempData["success"] = "Category Edited successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
@@ -86,7 +87,7 @@ namespace MovieWeb.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -97,12 +98,12 @@ namespace MovieWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteDb(int? id)
         {
-            Category? obj = _dbContext.Categories.Find(id);
+            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
             if (id == null)
             { return NotFound(); }
 
-            _dbContext.Categories.Remove(obj); // delete the obj
-            _dbContext.SaveChanges();
+            _unitOfWork.Category.Remove(obj); // delete the obj
+            _unitOfWork.Category.Save();
             TempData["success"] = "Category Deleted successfully";
             return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
 
