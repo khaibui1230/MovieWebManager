@@ -19,6 +19,8 @@ namespace Movie.DataAccess.Repository
         {
             this.dbContxext = dbContxext;
         }
+
+
         public void Update(Category category)
         {
             dbContxext.Update(category);

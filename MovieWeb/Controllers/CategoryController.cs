@@ -37,7 +37,7 @@ namespace MovieWeb.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.Category.Add(category);
-                _unitOfWork.Category.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
@@ -74,7 +74,7 @@ namespace MovieWeb.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.Category.Update(category);
-                _unitOfWork.Category.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Category Edited successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
@@ -103,7 +103,7 @@ namespace MovieWeb.Controllers
             { return NotFound(); }
 
             _unitOfWork.Category.Remove(obj); // delete the obj
-            _unitOfWork.Category.Save();
+            _unitOfWork.Save();
             TempData["success"] = "Category Deleted successfully";
             return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
 
