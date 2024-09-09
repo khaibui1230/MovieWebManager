@@ -4,12 +4,13 @@ using Movie.DataAccess.Repository.IRepository;
 using Movie.Models;
 
 
-namespace MovieWeb.Controllers
+namespace MovieWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-         
+
         public CategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -54,7 +55,7 @@ namespace MovieWeb.Controllers
             // load the database of Sql server
             //Category? categoryFromDb = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
             //Category? categoryFromDb = _dbContext.Categories.Where(u => u.Id == id).FirstOrDefault();
-            Category? categoryFromDb = _unitOfWork.Category.Get(u=>u.Id == id);    
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -107,7 +108,7 @@ namespace MovieWeb.Controllers
             TempData["success"] = "Category Deleted successfully";
             return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
 
-            
+
         }
     }
 }
