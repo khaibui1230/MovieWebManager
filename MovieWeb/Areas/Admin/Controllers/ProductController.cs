@@ -12,10 +12,12 @@ namespace MovieWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;   
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -55,26 +57,39 @@ namespace MovieWeb.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult UpSert(ProductVM obj, IFormFile file_img)
+        public IActionResult UpSert(ProductVM productVm, IFormFile file_img)
         {
             //  check the fied input is  valid
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(obj.Product);
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file_img != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file_img.FileName); // new file name
+                    string productPath = Path.Combine(wwwRootPath, @"Images\Product");
+
+                    //copy file 
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file_img.CopyTo(fileStream);
+                    }
+                    productVm.Product.ImageUrl = @"\Images\Product\" + fileName;
+                }
+                _unitOfWork.Product.Add(productVm.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
             else
             {
-                obj.CategoryList = _unitOfWork.Category.GetAll()
+                productVm.CategoryList = _unitOfWork.Category.GetAll()
             .Select(u => new SelectListItem
             {
                 Text = u.Name,
                 Value = u.Id.ToString()
             });
 
-                return View(obj);
+                return View(productVm);
             }
         }
         public IActionResult Delete(int? id)
