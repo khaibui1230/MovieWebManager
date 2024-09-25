@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Movie.DataAccess.Data;
 using Movie.DataAccess.Repository.IRepository;
 using Movie.Models;
@@ -24,6 +25,14 @@ namespace MovieWeb.Areas.Admin.Controllers
         // create a new
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+                .GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+            //hien thog ti 
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
         [HttpPost]

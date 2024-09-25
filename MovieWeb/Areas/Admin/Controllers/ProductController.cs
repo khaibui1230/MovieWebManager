@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Movie.DataAccess.Data;
 using Movie.DataAccess.Repository.IRepository;
 using Movie.Models;
+using Movie.Models.ViewModels;
 
 
 namespace MovieWeb.Areas.Admin.Controllers
@@ -18,60 +20,63 @@ namespace MovieWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+
             return View(objProductList);
         }
 
         // create a new
-        public IActionResult Create()
+        public IActionResult UpSert(int? id) // change to UpSert
         {
-            return View();
+            //// lay danh sach tu co so du lieu
+            //ViewBag.CategoryList = CategoyList;
+            ProductVM productVm = new()
+            {
+                CategoryList = _unitOfWork.Category.GetAll()
+                .Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+
+                Product = new Product()
+            };
+
+            if (id == null || id == 0)
+            {
+                return View(productVm); // create a  product
+            }
+            else
+            {
+                // update  the product
+               productVm.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                return View(productVm);
+
+            }
+
         }
         [HttpPost]
-        public IActionResult Create(Product objProduct)
+        public IActionResult UpSert(ProductVM obj, IFormFile file_img)
         {
             //  check the fied input is  valid
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(objProduct);
+                _unitOfWork.Product.Add(obj.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
             }
-            return View();
-        }
-
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
+            else
             {
-                return NotFound();
-            }
-
-            // load the database of Sql server
-            //Product? ProductFromDb = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
-            //Product? ProductFromDb = _dbContext.Categories.Where(u => u.Id == id).FirstOrDefault();
-            Product? ProductFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (ProductFromDb == null)
+                obj.CategoryList = _unitOfWork.Category.GetAll()
+            .Select(u => new SelectListItem
             {
-                return NotFound();
-            }
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
 
-            return View(ProductFromDb);
-        }
-        [HttpPost]
-        public IActionResult Edit(Product objProduct)
-        {
-            //  check the fied input is  valid
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Update(objProduct);
-                _unitOfWork.Save();
-                TempData["success"] = "Product Edited successfully";
-                return RedirectToAction("Index");  //  you  can chang the action  of index or controller  here
+                return View(obj);
             }
-            return View();
         }
-
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -86,7 +91,7 @@ namespace MovieWeb.Areas.Admin.Controllers
 
             return View(ProductFromDb);
         }
-        [HttpPost, ActionName("Delete")] 
+        [HttpPost, ActionName("Delete")]
 
         public IActionResult DeleteDb(int? id)
         {

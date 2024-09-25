@@ -31,7 +31,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 20.00,
                     Price = 18.00,
                     Price50 = 16.00,
-                    Price100 = 14.00
+                    Price100 = 14.00,
+                    cateGoryId = 1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -43,7 +45,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 15.00,
                     Price = 13.50,
                     Price50 = 12.00,
-                    Price100 = 10.50
+                    Price100 = 10.50,
+                    cateGoryId = 1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -55,7 +59,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 25.00,
                     Price = 22.50,
                     Price50 = 20.00,
-                    Price100 = 18.00
+                    Price100 = 18.00,
+                    cateGoryId = 1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -67,7 +73,10 @@ namespace Movie.DataAccess.Data
                     ListPrice = 12.00,
                     Price = 10.50,
                     Price50 = 9.00,
-                    Price100 = 8.00
+                    Price100 = 8.00,
+                    cateGoryId = 2,
+                    ImageUrl = ""
+
                 },
                 new Product
                 {
@@ -79,7 +88,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 18.00,
                     Price = 16.50,
                     Price50 = 15.00,
-                    Price100 = 13.50
+                    Price100 = 13.50,
+                    cateGoryId = 3,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -92,6 +103,8 @@ namespace Movie.DataAccess.Data
                     Price = 20.00,
                     Price50 = 18.00,
                     Price100 = 16.00
+                    ,cateGoryId=1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -104,6 +117,8 @@ namespace Movie.DataAccess.Data
                     Price = 15.50,
                     Price50 = 14.00,
                     Price100 = 12.50
+                    ,cateGoryId=2,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -115,7 +130,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 30.00,
                     Price = 27.00,
                     Price50 = 24.00,
-                    Price100 = 22.00
+                    Price100 = 22.00,
+                    cateGoryId = 2,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -127,7 +144,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 14.00,
                     Price = 12.50,
                     Price50 = 11.00,
-                    Price100 = 10.00
+                    Price100 = 10.00,
+                    cateGoryId = 2,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -139,7 +158,9 @@ namespace Movie.DataAccess.Data
                     ListPrice = 20.00,
                     Price = 18.00,
                     Price50 = 16.00,
-                    Price100 = 14.50
+                    Price100 = 14.50,
+                    cateGoryId = 2,
+                    ImageUrl = ""
                 }
                 );
         }

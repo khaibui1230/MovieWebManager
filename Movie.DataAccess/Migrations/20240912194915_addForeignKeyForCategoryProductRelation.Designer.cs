@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movie.DataAccess.Data;
 
@@ -10,9 +11,11 @@ using Movie.DataAccess.Data;
 namespace Movie.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240912194915_addForeignKeyForCategoryProductRelation")]
+    partial class addForeignKeyForCategoryProductRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,10 +85,6 @@ namespace Movie.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -118,7 +117,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "F. Scott Fitzgerald",
                             Description = "A novel set in the 1920s about the mysterious millionaire Jay Gatsby.",
                             ISBN = "9780743273565",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Price = 18.0,
                             Price100 = 14.0,
@@ -132,7 +130,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "George Orwell",
                             Description = "A dystopian novel that delves into the dangers of totalitarianism.",
                             ISBN = "9780451524935",
-                            ImageUrl = "",
                             ListPrice = 15.0,
                             Price = 13.5,
                             Price100 = 10.5,
@@ -146,7 +143,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Harper Lee",
                             Description = "A classic of modern American literature, exploring racial injustice in the Deep South.",
                             ISBN = "9780060935467",
-                            ImageUrl = "",
                             ListPrice = 25.0,
                             Price = 22.5,
                             Price100 = 18.0,
@@ -160,7 +156,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Jane Austen",
                             Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
                             ISBN = "9780141439518",
-                            ImageUrl = "",
                             ListPrice = 12.0,
                             Price = 10.5,
                             Price100 = 8.0,
@@ -174,7 +169,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "J.D. Salinger",
                             Description = "A novel about teenage alienation and rebellion.",
                             ISBN = "9780316769488",
-                            ImageUrl = "",
                             ListPrice = 18.0,
                             Price = 16.5,
                             Price100 = 13.5,
@@ -188,7 +182,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "J.R.R. Tolkien",
                             Description = "A fantasy novel that precedes The Lord of the Rings.",
                             ISBN = "9780345339683",
-                            ImageUrl = "",
                             ListPrice = 22.0,
                             Price = 20.0,
                             Price100 = 16.0,
@@ -202,7 +195,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Herman Melville",
                             Description = "A novel about Captain Ahab’s obsession with a white whale.",
                             ISBN = "9781503280786",
-                            ImageUrl = "",
                             ListPrice = 17.0,
                             Price = 15.5,
                             Price100 = 12.5,
@@ -216,7 +208,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Leo Tolstoy",
                             Description = "A historical novel set during the Napoleonic Wars in Russia.",
                             ISBN = "9781853260629",
-                            ImageUrl = "",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 22.0,
@@ -230,7 +221,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Homer",
                             Description = "An epic poem following Odysseus’ journey home after the Trojan War.",
                             ISBN = "9780140268867",
-                            ImageUrl = "",
                             ListPrice = 14.0,
                             Price = 12.5,
                             Price100 = 10.0,
@@ -244,7 +234,6 @@ namespace Movie.DataAccess.Migrations
                             Author = "Fyodor Dostoevsky",
                             Description = "A psychological novel exploring morality and guilt.",
                             ISBN = "9780486415871",
-                            ImageUrl = "",
                             ListPrice = 20.0,
                             Price = 18.0,
                             Price100 = 14.5,

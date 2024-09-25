@@ -1,10 +1,14 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Movie.DataAccess.Data;
 using Movie.DataAccess.Repository;
 using Movie.DataAccess.Repository.IRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // Ghi log ra console (terminal)
+builder.Logging.AddDebug(); // Ghi log vào cửa sổ debug (VS)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
