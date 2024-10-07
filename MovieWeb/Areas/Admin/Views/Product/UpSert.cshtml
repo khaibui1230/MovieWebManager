@@ -11,6 +11,7 @@
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Product.Id" hidden />
+            <input asp-for="Product.ImageUrl" hidden />
             <div class="row">
                 <div class="col-10">
                     <div class="p-3 border">
@@ -83,9 +84,10 @@
                 </div>
                 <div class="col-2">
                     <img src="@Model.Product.ImageUrl" width="100%"
-                    style="border-radius:5px; border:1px solid #bbb9b9" />
+                         style="border-radius:5px; border:1px solid #bbb9b9" />
+                </div>
             </div>
-            
+
 
         </form>
     </div>
@@ -101,7 +103,7 @@
                 // Core editing features
                 'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
                 // Your account includes a free trial of TinyMCE premium features
-                // Try the most popular premium features until Oct 10, 2024: 
+                // Try the most popular premium features until Oct 10, 2024:
                 'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
             ],
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',

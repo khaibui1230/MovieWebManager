@@ -14,7 +14,7 @@ namespace Movie.DataAccess.Repository
     public class ProductRepository : Repository<Product>, IProductRepository
     {
         private readonly ApplicationDbContext dbContxext;
-        
+
         public ProductRepository(ApplicationDbContext dbContxext) : base(dbContxext)
         {
             this.dbContxext = dbContxext;
@@ -23,7 +23,26 @@ namespace Movie.DataAccess.Repository
 
         public void Update(Product product)
         {
-            dbContxext.Products.Update(product);
+            // anh xa the information from Db
+            var objFromDb = dbContxext.Products.FirstOrDefault(u => u.Id == product.Id);
+            if (objFromDb != null)
+            {
+                objFromDb.Title = product.Title;
+                objFromDb.ISBN = product.ISBN;
+                objFromDb.Price = product.Price;
+                objFromDb.ListPrice = product.ListPrice;
+                objFromDb.Price50 = product.Price50;
+                objFromDb.Price100 = product.Price100;
+                objFromDb.Description = product.Description;
+                objFromDb.cateGoryId = product.cateGoryId;
+                objFromDb.Author = product.Author;
+
+                // just update the img if u choose the new url
+                if (product.ImageUrl !=null)
+                {
+                    objFromDb.ImageUrl = product.ImageUrl;
+                }
+            }
 
         }
     }
