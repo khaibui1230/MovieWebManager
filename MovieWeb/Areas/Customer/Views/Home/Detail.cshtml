@@ -9,14 +9,14 @@
                     <p class="text-white-50 fw-semibold mb-0">by @Model.Author</p>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="py-3">
-                    <div class="row">
-                        <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                            <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                                <small>Back to home</small>
-                            </a>
-                        </div>
+        </div>
+        <div class="card-body">
+            <div class="py-3">
+                <div class="row">
+                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                        <a asp-action="Index" class="btn btn-outline-primary bg-white mb-5 fw-semibold btn-sm text-uppercase">
+                            <small>Back to home</small>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -29,10 +29,10 @@
                             <span class="badge">@Model.Category.Name</span>
                         </div>
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50">ISBN : @Model.ISBN</h6>
+                            <h6 class="text-white text-bod fw-bold text-opacity-50">ISBN : @Model.ISBN</h6>
                         </div>
                         <div class="row ps-2">
-                            <h6 class="text-dark pb-2 text-opacity-50">
+                            <h6 class="text-white pb-2 text-opacity-50">
                                 List Price:
                                 <span class="text-decoration-line-through">
                                     @Model.ListPrice.ToString("c")
