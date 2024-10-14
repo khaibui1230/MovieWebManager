@@ -8,5 +8,13 @@ namespace Movie.Untility
 {
     public class SD
     {
+        public const string Role_Customers = "Customer";
+        public const string Role_Company = "Company";
+        public const string Role_Admin = "Admin";
+        public const string Role_Employee = "Employee";
+
+
+
+
     }
 }

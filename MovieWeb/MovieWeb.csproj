@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Movie.DataAccess\Movie.DataAccess.csproj" />
+    <ProjectReference Include="..\Movie.Untility\Movie.Untility.csproj" />
     <ProjectReference Include="..\Movies.Models\Movie.Models.csproj" />
   </ItemGroup>
 

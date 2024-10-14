@@ -3,6 +3,8 @@ using Movie.DataAccess.Data;
 using Movie.DataAccess.Repository;
 using Movie.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Movie.Untility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,14 +15,18 @@ builder.Logging.AddDebug(); // Ghi log vào cửa sổ debug (VS)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options=>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 // Add a serrvice to usse implement category    
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Add service to send Email when create a account
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 // add razer page for login/ regis
 builder.Services.AddRazorPages();
 
