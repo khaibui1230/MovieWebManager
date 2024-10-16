@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Movie.Models;
 using Movie.Untility;
 
 namespace MovieWeb.Areas.Identity.Pages.Account
@@ -105,9 +106,18 @@ namespace MovieWeb.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             //Add role for user
-            public string? Role {  get; set; }
+            public string? Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            [Required]
+            public string Name{ get; set; }
+            public string? StreetAddress {  get; set; }
+            public string? City { get; set; }
+            public string? State{ get; set; }
+            public string? PostalCode{ get; set; }
+            public string? PhoneNumber{ get; set; }
+
         }
 
 
@@ -140,10 +150,25 @@ namespace MovieWeb.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                //var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                //await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                //user.StreetAddress = Input.StreetAddress;
+                //user.PhoneNumber = Input.PhoneNumber;
+                //user.Email = Input.Email;
+                //user.City = Input.City;
+                //user.State = Input.State;
+                var user = new ApplicationUser
+                {
+                    Email = Input.Email,
+                    UserName = Input.Name,
+                    StreetAddress = Input.StreetAddress,
+                    PhoneNumber = Input.PhoneNumber,
+                    City = Input.City,
+                    State = Input.State,
+                    PostalCode = Input.PostalCode
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -194,7 +219,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {
