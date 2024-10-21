@@ -17,10 +17,13 @@ namespace Movie.DataAccess.Repository
 
         public IProductRepository Product {  get; private set; }
 
+        public ICompanyRepository Company { get; private set; }
+
         public UnitOfWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             Category = new CategoryRepository(_dbContext);
+            Company = new CompanyRepository(_dbContext);
             Product = new ProductRepository(_dbContext);
         }
         public void Save()

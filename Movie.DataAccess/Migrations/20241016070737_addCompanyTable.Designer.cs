@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movie.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using Movie.DataAccess.Data;
 namespace Movie.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241016070737_addCompanyTable")]
+    partial class addCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,58 +303,6 @@ namespace Movie.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "San Francisco",
-                            Name = "TechWorld",
-                            PhoneNumber = "123-456-7890",
-                            PostalCode = "94016",
-                            State = "CA",
-                            StreetAddress = "123 Silicon Valley"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "New York",
-                            Name = "Book Haven",
-                            PhoneNumber = "987-654-3210",
-                            PostalCode = "10001",
-                            State = "NY",
-                            StreetAddress = "456 Book Street"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Seattle",
-                            Name = "GadgetWorks",
-                            PhoneNumber = "555-123-4567",
-                            PostalCode = "98101",
-                            State = "WA",
-                            StreetAddress = "789 Tech Drive"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            City = "Portland",
-                            Name = "Green Solutions",
-                            PhoneNumber = "444-987-1234",
-                            PostalCode = "97201",
-                            State = "OR",
-                            StreetAddress = "321 Eco Lane"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            City = "Detroit",
-                            Name = "AutoParts Co.",
-                            PhoneNumber = "888-456-7890",
-                            PostalCode = "48201",
-                            State = "MI",
-                            StreetAddress = "101 Motorway Blvd"
-                        });
                 });
 
             modelBuilder.Entity("Movie.Models.Product", b =>
