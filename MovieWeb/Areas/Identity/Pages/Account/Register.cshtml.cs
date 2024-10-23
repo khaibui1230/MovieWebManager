@@ -116,13 +116,14 @@ namespace MovieWeb.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
             [Required]
-            public string Name{ get; set; }
-            public string? StreetAddress {  get; set; }
+            public string Name { get; set; }
+            public string? StreetAddress { get; set; }
             public string? City { get; set; }
-            public string? State{ get; set; }
-            public string? PostalCode{ get; set; }
-            public string? PhoneNumber{ get; set; }
+            public string? State { get; set; }
+            public string? PostalCode { get; set; }
+            public string? PhoneNumber { get; set; }
             public int? CompanyId { get; set; }
+            [ValidateNever]
             public IEnumerable<SelectListItem> CompanyList { get; set; }
 
         }
@@ -130,14 +131,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            // check the Role will be add 
-            if (!_roleManager.RoleExistsAsync(SD.Role_Customers).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync( new IdentityRole(SD.Role_Customers) ).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
-            }
+
 
             Input = new()
             {
@@ -151,7 +145,8 @@ namespace MovieWeb.Areas.Identity.Pages.Account
                     Text = i.Name,
                     Value = i.Id.ToString()
                 })
-            }; 
+            };
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -162,41 +157,35 @@ namespace MovieWeb.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                //var user = CreateUser();
+                var user = CreateUser();
 
-                //await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                //user.StreetAddress = Input.StreetAddress;
-                //user.PhoneNumber = Input.PhoneNumber;
-                //user.Email = Input.Email;
-                //user.City = Input.City;
-                //user.State = Input.State;
-                var user = new ApplicationUser
-                {
-                    Email = Input.Email,
-                    UserName = Input.Name,
-                    StreetAddress = Input.StreetAddress,
-                    PhoneNumber = Input.PhoneNumber,
-                    City = Input.City,
-                    State = Input.State,
-                    PostalCode = Input.PostalCode
-                };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.StreetAddress = Input.StreetAddress;
+                user.City = Input.City;
+                user.Name = Input.Name;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
+                user.PhoneNumber = Input.PhoneNumber;
+
                 if (Input.Role == SD.Role_Company)
                 {
                     user.CompanyId = Input.CompanyId;
                 }
 
+                var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (!string.IsNullOrEmpty(Input.Role))
+                    if (!String.IsNullOrEmpty(Input.Role))
                     {
                         await _userManager.AddToRoleAsync(user, Input.Role);
-                    }else
+                    }
+                    else
                     {
-                        await _userManager.AddToRoleAsync(user,SD.Role_Customers);
+                        await _userManager.AddToRoleAsync(user, SD.Role_Customers);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -217,7 +206,14 @@ namespace MovieWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["success"] = "New User Created Successfully";
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -231,7 +227,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
