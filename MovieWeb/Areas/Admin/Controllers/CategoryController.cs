@@ -26,17 +26,17 @@ namespace MovieWeb.Areas.Admin.Controllers
         }
 
         // create a new
-        [Authorize(Roles = SD.Role_Admin)] 
+        [Authorize(Roles = Sd.RoleAdmin)] 
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category
                 .GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
             //hien thog ti 
-            ViewBag.CategoryList = CategoryList;
+            ViewBag.CategoryList = categoryList;
             return View();
         }
         [HttpPost]

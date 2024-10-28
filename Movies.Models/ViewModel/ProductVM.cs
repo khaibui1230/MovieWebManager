@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Movie.Models.ViewModels
 {
-    public class ProductVM
+    public class ProductVm
     {
         public Product Product{ get; set; }
         [ValidateNever]

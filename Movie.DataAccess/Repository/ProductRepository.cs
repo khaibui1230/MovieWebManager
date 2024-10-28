@@ -13,22 +13,22 @@ namespace Movie.DataAccess.Repository
     // ke thua phuong thuc tu lop cha Repository voi thuoc tinh cua Category
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        private readonly ApplicationDbContext dbContxext;
+        private readonly ApplicationDbContext _dbContxext;
 
         public ProductRepository(ApplicationDbContext dbContxext) : base(dbContxext)
         {
-            this.dbContxext = dbContxext;
+            this._dbContxext = dbContxext;
         }
 
 
         public void Update(Product product)
         {
             // anh xa the information from Db
-            var objFromDb = dbContxext.Products.FirstOrDefault(u => u.Id == product.Id);
+            var objFromDb = _dbContxext.Products.FirstOrDefault(u => u.Id == product.Id);
             if (objFromDb != null)
             {
                 objFromDb.Title = product.Title;
-                objFromDb.ISBN = product.ISBN;
+                objFromDb.Isbn = product.Isbn;
                 objFromDb.Price = product.Price;
                 objFromDb.ListPrice = product.ListPrice;
                 objFromDb.Price50 = product.Price50;
