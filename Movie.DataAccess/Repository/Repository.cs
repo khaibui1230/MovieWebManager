@@ -4,6 +4,7 @@ using Movie.DataAccess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,23 +13,34 @@ namespace Movie.DataAccess.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
-        internal DbSet<T> dbSet;
+        internal DbSet<T> DbSet;
 
         public Repository(ApplicationDbContext dbContext)
         {
             this._db = dbContext;
-            this.dbSet = dbContext.Set<T>();
+            this.DbSet = dbContext.Set<T>();
             //db.Catgorry == DSSet
             _db.Products.Include(u => u.Category).Include(u => u.cateGoryId);
         }
         public void Add(T entity)
         {
-            dbSet.Add(entity);
+            DbSet.Add(entity);
         }
 
-        public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? includesProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includesProperties = null, bool tracked = false)
         {
-            IQueryable<T> values = dbSet.Where(filter);
+            IQueryable<T> values;
+            //add the track to folow the Cart
+            if (tracked)
+            {
+                values = DbSet;
+            }
+            else
+            {
+                values = DbSet.AsNoTracking();
+            }
+
+            values = values.Where(filter);
             //check the include properties
             if (!string.IsNullOrEmpty(includesProperties))
             {
@@ -42,9 +54,15 @@ namespace Movie.DataAccess.Repository
         }
 
         //Category, CoverType
-        public IEnumerable<T> GetAll(string? includesProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includesProperties = null)
         {
-            IQueryable<T> values = dbSet;
+
+            IQueryable<T> values = DbSet;
+            if (filter != null)
+            {
+                values = values.Where(filter);
+            }
+
             if (!string.IsNullOrEmpty(includesProperties))
             {
                 foreach (var property in includesProperties.
@@ -58,12 +76,12 @@ namespace Movie.DataAccess.Repository
 
         public void Remove(T entity)
         {
-            dbSet.Remove(entity);
+            DbSet.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<T> entities)
         {
-            dbSet.RemoveRange(entities);
+            DbSet.RemoveRange(entities);
         }
     }
 }

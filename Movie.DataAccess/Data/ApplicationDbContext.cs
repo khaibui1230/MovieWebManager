@@ -17,6 +17,8 @@ namespace Movie.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts{ get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -90,7 +92,7 @@ namespace Movie.DataAccess.Data
                         Id = 1,
                         Title = "The Great Gatsby",
                         Description = "A novel set in the 1920s about the mysterious millionaire Jay Gatsby.",
-                        ISBN = "9780743273565",
+                        Isbn = "9780743273565",
                         Author = "F. Scott Fitzgerald",
                         ListPrice = 20.00,
                         Price = 18.00,
@@ -104,7 +106,7 @@ namespace Movie.DataAccess.Data
                         Id = 2,
                         Title = "1984",
                         Description = "A dystopian novel that delves into the dangers of totalitarianism.",
-                        ISBN = "9780451524935",
+                        Isbn = "9780451524935",
                         Author = "George Orwell",
                         ListPrice = 15.00,
                         Price = 13.50,
@@ -118,7 +120,7 @@ namespace Movie.DataAccess.Data
                         Id = 3,
                         Title = "To Kill a Mockingbird",
                         Description = "A classic of modern American literature, exploring racial injustice in the Deep South.",
-                        ISBN = "9780060935467",
+                        Isbn = "9780060935467",
                         Author = "Harper Lee",
                         ListPrice = 25.00,
                         Price = 22.50,
@@ -132,7 +134,7 @@ namespace Movie.DataAccess.Data
                         Id = 4,
                         Title = "Pride and Prejudice",
                         Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
-                        ISBN = "9780141439518",
+                        Isbn = "9780141439518",
                         Author = "Jane Austen",
                         ListPrice = 12.00,
                         Price = 10.50,
@@ -147,7 +149,7 @@ namespace Movie.DataAccess.Data
                         Id = 5,
                         Title = "The Catcher in the Rye",
                         Description = "A novel about teenage alienation and rebellion.",
-                        ISBN = "9780316769488",
+                        Isbn = "9780316769488",
                         Author = "J.D. Salinger",
                         ListPrice = 18.00,
                         Price = 16.50,
@@ -161,7 +163,7 @@ namespace Movie.DataAccess.Data
                         Id = 6,
                         Title = "The Hobbit",
                         Description = "A fantasy novel that precedes The Lord of the Rings.",
-                        ISBN = "9780345339683",
+                        Isbn = "9780345339683",
                         Author = "J.R.R. Tolkien",
                         ListPrice = 22.00,
                         Price = 20.00,
@@ -176,7 +178,7 @@ namespace Movie.DataAccess.Data
                         Id = 7,
                         Title = "Moby-Dick",
                         Description = "A novel about Captain Ahab’s obsession with a white whale.",
-                        ISBN = "9781503280786",
+                        Isbn = "9781503280786",
                         Author = "Herman Melville",
                         ListPrice = 17.00,
                         Price = 15.50,
@@ -191,7 +193,7 @@ namespace Movie.DataAccess.Data
                         Id = 8,
                         Title = "War and Peace",
                         Description = "A historical novel set during the Napoleonic Wars in Russia.",
-                        ISBN = "9781853260629",
+                        Isbn = "9781853260629",
                         Author = "Leo Tolstoy",
                         ListPrice = 30.00,
                         Price = 27.00,
@@ -205,7 +207,7 @@ namespace Movie.DataAccess.Data
                         Id = 9,
                         Title = "The Odyssey",
                         Description = "An epic poem following Odysseus’ journey home after the Trojan War.",
-                        ISBN = "9780140268867",
+                        Isbn = "9780140268867",
                         Author = "Homer",
                         ListPrice = 14.00,
                         Price = 12.50,
@@ -219,7 +221,7 @@ namespace Movie.DataAccess.Data
                         Id = 10,
                         Title = "Crime and Punishment",
                         Description = "A psychological novel exploring morality and guilt.",
-                        ISBN = "9780486415871",
+                        Isbn = "9780486415871",
                         Author = "Fyodor Dostoevsky",
                         ListPrice = 20.00,
                         Price = 18.00,

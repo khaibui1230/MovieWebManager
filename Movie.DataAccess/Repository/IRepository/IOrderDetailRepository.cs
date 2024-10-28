@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Movie.DataAccess.Repository.IRepository
 {
-    public interface IShoppingCartRepository : IRepository<ShoppingCart>
+    public interface IOrderDetailRepository : IRepository<OrderDetail>
     {
-        void Update(ShoppingCart shoppingCart);
-
+        void Update (OrderDetail orderDetail);
+        
     }
 }

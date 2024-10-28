@@ -354,6 +354,108 @@ namespace Movie.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Movie.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderHearderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderHearderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Movie.Models.OrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("OrderTotal")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("PaymentDueDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PaymentIntenId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("OrderHeaders");
+                });
+
             modelBuilder.Entity("Movie.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -370,11 +472,11 @@ namespace Movie.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ISBN")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Isbn")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -409,8 +511,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 1,
                             Author = "F. Scott Fitzgerald",
                             Description = "A novel set in the 1920s about the mysterious millionaire Jay Gatsby.",
-                            ISBN = "9780743273565",
                             ImageUrl = "",
+                            Isbn = "9780743273565",
                             ListPrice = 20.0,
                             Price = 18.0,
                             Price100 = 14.0,
@@ -423,8 +525,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 2,
                             Author = "George Orwell",
                             Description = "A dystopian novel that delves into the dangers of totalitarianism.",
-                            ISBN = "9780451524935",
                             ImageUrl = "",
+                            Isbn = "9780451524935",
                             ListPrice = 15.0,
                             Price = 13.5,
                             Price100 = 10.5,
@@ -437,8 +539,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 3,
                             Author = "Harper Lee",
                             Description = "A classic of modern American literature, exploring racial injustice in the Deep South.",
-                            ISBN = "9780060935467",
                             ImageUrl = "",
+                            Isbn = "9780060935467",
                             ListPrice = 25.0,
                             Price = 22.5,
                             Price100 = 18.0,
@@ -451,8 +553,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 4,
                             Author = "Jane Austen",
                             Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
-                            ISBN = "9780141439518",
                             ImageUrl = "",
+                            Isbn = "9780141439518",
                             ListPrice = 12.0,
                             Price = 10.5,
                             Price100 = 8.0,
@@ -465,8 +567,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 5,
                             Author = "J.D. Salinger",
                             Description = "A novel about teenage alienation and rebellion.",
-                            ISBN = "9780316769488",
                             ImageUrl = "",
+                            Isbn = "9780316769488",
                             ListPrice = 18.0,
                             Price = 16.5,
                             Price100 = 13.5,
@@ -479,8 +581,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 6,
                             Author = "J.R.R. Tolkien",
                             Description = "A fantasy novel that precedes The Lord of the Rings.",
-                            ISBN = "9780345339683",
                             ImageUrl = "",
+                            Isbn = "9780345339683",
                             ListPrice = 22.0,
                             Price = 20.0,
                             Price100 = 16.0,
@@ -493,8 +595,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 7,
                             Author = "Herman Melville",
                             Description = "A novel about Captain Ahab’s obsession with a white whale.",
-                            ISBN = "9781503280786",
                             ImageUrl = "",
+                            Isbn = "9781503280786",
                             ListPrice = 17.0,
                             Price = 15.5,
                             Price100 = 12.5,
@@ -507,8 +609,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 8,
                             Author = "Leo Tolstoy",
                             Description = "A historical novel set during the Napoleonic Wars in Russia.",
-                            ISBN = "9781853260629",
                             ImageUrl = "",
+                            Isbn = "9781853260629",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 22.0,
@@ -521,8 +623,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 9,
                             Author = "Homer",
                             Description = "An epic poem following Odysseus’ journey home after the Trojan War.",
-                            ISBN = "9780140268867",
                             ImageUrl = "",
+                            Isbn = "9780140268867",
                             ListPrice = 14.0,
                             Price = 12.5,
                             Price100 = 10.0,
@@ -535,8 +637,8 @@ namespace Movie.DataAccess.Migrations
                             Id = 10,
                             Author = "Fyodor Dostoevsky",
                             Description = "A psychological novel exploring morality and guilt.",
-                            ISBN = "9780486415871",
                             ImageUrl = "",
+                            Isbn = "9780486415871",
                             ListPrice = 20.0,
                             Price = 18.0,
                             Price100 = 14.5,
@@ -650,6 +752,36 @@ namespace Movie.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Movie.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Movie.Models.OrderHeader", "OrderHearder")
+                        .WithMany()
+                        .HasForeignKey("OrderHearderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Movie.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHearder");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Movie.Models.OrderHeader", b =>
+                {
+                    b.HasOne("Movie.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Movie.Models.Product", b =>

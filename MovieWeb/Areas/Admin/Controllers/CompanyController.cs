@@ -89,13 +89,13 @@ namespace MovieWeb.Areas.Admin.Controllers
         
         public IActionResult Delete(int? id)
         {
-            var CompanyToBeDeleted = _unitOfWork.Company.Get(u => u.Id == id);
-            if (CompanyToBeDeleted == null)
+            var companyToBeDeleted = _unitOfWork.Company.Get(u => u.Id == id);
+            if (companyToBeDeleted == null)
             {
                 return Json(new { success = false, message = "Error while deleted" });
             };
 
-            _unitOfWork.Company.Remove(CompanyToBeDeleted);
+            _unitOfWork.Company.Remove(companyToBeDeleted);
             _unitOfWork.Save();
             //return the new Json to get api
             return Json(new { success = true, message = "Deleted Successfull" });

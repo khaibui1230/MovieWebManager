@@ -168,7 +168,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
 
-                if (Input.Role == SD.Role_Company)
+                if (Input.Role == Sd.RoleCompany)
                 {
                     user.CompanyId = Input.CompanyId;
                 }
@@ -185,7 +185,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, SD.Role_Customers);
+                        await _userManager.AddToRoleAsync(user, Sd.RoleCustomers);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -206,7 +206,7 @@ namespace MovieWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        if (User.IsInRole(SD.Role_Admin))
+                        if (User.IsInRole(Sd.RoleAdmin))
                         {
                             TempData["success"] = "New User Created Successfully";
                         }

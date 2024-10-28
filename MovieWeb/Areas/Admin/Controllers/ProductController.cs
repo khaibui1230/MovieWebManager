@@ -11,7 +11,7 @@ using Movie.Untility;
 namespace MovieWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = Sd.RoleAdmin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -34,7 +34,7 @@ namespace MovieWeb.Areas.Admin.Controllers
         {
             //// lay danh sach tu co so du lieu
             //ViewBag.CategoryList = CategoyList;
-            ProductVM productVm = new()
+            ProductVm productVm = new()
             {
                 CategoryList = _unitOfWork.Category.GetAll()
                 .Select(u => new SelectListItem
@@ -60,15 +60,15 @@ namespace MovieWeb.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult UpSert(ProductVM productVm, IFormFile? file_img)
+        public IActionResult UpSert(ProductVm productVm, IFormFile? fileImg)
         {
             //  check the fied input is  valid
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file_img != null)
+                if (fileImg != null)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file_img.FileName); // new file name
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileImg.FileName); // new file name
                     string productPath = Path.Combine(wwwRootPath, @"Images\Product");
 
                     // check the oldImg in exsist on the model
@@ -86,7 +86,7 @@ namespace MovieWeb.Areas.Admin.Controllers
                     //copy file 
                     using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
-                        file_img.CopyTo(fileStream);
+                        fileImg.CopyTo(fileStream);
                     }
                     productVm.Product.ImageUrl = @"\Images\Product\" + fileName;
                 }
