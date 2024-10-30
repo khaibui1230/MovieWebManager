@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Movie.Untility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Movie.Models;
+using Stripe;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//add stripe
+builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -35,7 +38,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Add a serrvice to usse implement category    
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Add service to send Email when create a account
+// Add service to send Email when create an account
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 // add razer page for login/ regis
 builder.Services.AddRazorPages();
@@ -43,7 +46,7 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (! app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -54,7 +57,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseAuthorization();
 app.MapRazorPages();
 

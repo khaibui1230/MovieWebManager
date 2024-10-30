@@ -20,10 +20,10 @@ public class OrderHeader
     public string? PaymentStatus { get; set; }
     public string? TrackingNumber { get; set; }
     public string? Carrier { get; set; }
-    
     public DateTime PaymentDateTime { get; set; }
     public DateOnly PaymentDueDate { get; set; }
     
+    public string? SectionId { get; set; }
     public string? PaymentIntenId { get; set; }
     
     [Required]
