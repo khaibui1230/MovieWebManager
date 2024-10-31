@@ -50,17 +50,23 @@ namespace MovieWeb.Areas.Customer.Controllers
             if (cartFromDb != null)
             {
                 cartFromDb.Count += shoppingCart.Count;
+               
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                
             }
             else
             {
+              
                 //add cart record
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 //HttpContext.Session.SetInt32(SD.SessionCart,
                 //_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Coun());
             }
+            
+           
 
             _unitOfWork.Save();
+            TempData["success"] = "Cart updated successfully";
             return RedirectToAction(nameof(Index));
         }
 
