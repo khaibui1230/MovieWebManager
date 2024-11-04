@@ -1,0 +1,79 @@
+﻿@{
+    var status = Context.Request.Query["status"];
+    var pending = "text-white";
+    var inprocess = "text-white";
+    var completed = "text-white";
+    var approved = "text-white";
+    var all = "text-white";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-white bg-primary ";
+            break;
+        case "inprocess":
+            inprocess = "active text-white bg-primary";
+            break;
+        case "completed":
+            completed = "active text-white bg-primary";
+            break;
+        case "approved":
+            approved = "active text-white bg-primary";
+            break;
+        default:
+            all = "active text-white bg-primary";
+            break;
+    }
+}
+<div class="card my-4 border-0 shadow">
+    <div class="card-header bg-secondary ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Order List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4  " >
+        <div class="d-flex justify-content-between pb-5 pt-2 ">
+            <span ></span>
+            <ul class="list-group list-group-horizontal-sm">
+                <li class="list-group-item @inprocess">
+                    <a href="@Url.Action("Index", "Order", new { status = "inprocess" })">In Process</a>
+                </li>
+                <li class="list-group-item @pending">
+                    <a href="@Url.Action("Index", "Order", new { status = "pending" })">Payment Pending</a>
+                </li>
+                <li class="list-group-item @completed">
+                    <a href="@Url.Action("Index", "Order", new { status = "completed" })">Completed</a>
+                </li>
+                <li class="list-group-item @approved">
+                    <a href="@Url.Action("Index", "Order", new { status = "approved" })">Approved</a>
+                </li>
+                <li class="list-group-item @all">
+                    <a href="@Url.Action("Index", "Order", new { status = "all" })">All</a>
+                </li>
+            </ul>
+
+
+        </div>
+
+        <table id="tblData" class="table-bordered table-striped table" style="width:100%">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/order.js"></script>
+}

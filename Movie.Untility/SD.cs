@@ -26,7 +26,7 @@ namespace Movie.Untility
         public const string PaymentStatusApproved = "Approved";
         public const string PaymentStatusDelayedPayment = "ApprovedForDelayedPayment";
         public const string PaymentStatuReject = "Rejected";
-
-
+        
+        public const string SessionCart = "SessionShoppingCart";
     }
 }

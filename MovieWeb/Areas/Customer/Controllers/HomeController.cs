@@ -23,6 +23,15 @@ namespace MovieWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            
+            // Chech the carrt in the db
+            if (claims != null)
+            {
+                HttpContext.Session.SetInt32(Sd.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId==claims.Value).Count());
+            }
             // get all the product to display along with property
             IEnumerable<Product> productsList = _unitOfWork.Product.GetAll(includesProperties: "Category");
             return View(productsList);
@@ -52,15 +61,15 @@ namespace MovieWeb.Areas.Customer.Controllers
                 cartFromDb.Count += shoppingCart.Count;
                
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
-                
+                _unitOfWork.Save();
             }
             else
             {
-              
                 //add cart record
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
-                //HttpContext.Session.SetInt32(SD.SessionCart,
-                //_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Coun());
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(Sd.SessionCart,
+                        _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             
            
