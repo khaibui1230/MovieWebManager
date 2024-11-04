@@ -6,6 +6,8 @@ using Movie.DataAccess.Repository.IRepository;
 using Movie.Models;
 using Movie.Models.ViewModel;
 using Movie.Untility;
+using Stripe;
+using Stripe.Checkout;
 
 namespace MovieWeb.Areas.Admin.Controllers;
 
@@ -99,6 +101,110 @@ public class OrderController : Controller
         return RedirectToAction(nameof(Details), new { orderId = OrderVm.OrderHeader.Id });
     }
 
+    [Authorize(Roles = Sd.RoleAdmin + "," + Sd.RoleEmployee)]  
+    [HttpPost]
+    public IActionResult CancelOrder()
+    {
+        var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVm.OrderHeader.Id);
+
+        if (orderHeaderFromDb.PaymentStatus == Sd.StatusApproved)
+        {
+            var options = new RefundCreateOptions
+            {
+                Reason = RefundReasons.RequestedByCustomer,
+                PaymentIntent = orderHeaderFromDb.PaymentIntenId,
+            };
+            
+            var service = new RefundService();
+            Refund refund = service.Create(options);
+            
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVm.OrderHeader.Id, Sd.StatusCancelled,Sd.StatusRefunded);
+        }
+        else
+        {
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVm.OrderHeader.Id, Sd.StatusCancelled, Sd.StatusCancelled);
+        }
+        
+        _unitOfWork.Save();
+        TempData["Success"] = "Order has been cancelled";
+        Console.WriteLine("The order has been cancelled");
+        return RedirectToAction(nameof(Details), new { orderId = OrderVm.OrderHeader.Id });
+    }
+
+    [ActionName("Details")]
+    [HttpPost]
+    public IActionResult Details_Pay_Now()
+    {
+        
+        if (OrderVm == null || OrderVm.OrderHeader == null)
+        {
+            return BadRequest("Order information is missing.");
+        }
+        
+        OrderVm.OrderHeader = _unitOfWork.OrderHeader
+            .Get(u => u.Id == OrderVm.OrderHeader.Id, includesProperties: "ApplicationUser");
+        OrderVm.OrderDetails = _unitOfWork.OrderDetail
+            .GetAll(u => u.OrderHearderId == OrderVm.OrderHeader.Id, includesProperties: "Product");
+        
+        //stripe logic
+        var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+        var options = new SessionCreateOptions()
+        {
+            SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVm.OrderHeader.Id}",
+            CancelUrl = domain + "admin/order/delete?orderId={OrderVm.OrderHeader.Id}",
+            LineItems = new List<SessionLineItemOptions>(),
+            Mode = "payment",
+        };
+
+        foreach (var item in OrderVm.OrderDetails)
+        {
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(item.Price * 100), // $20.50 => 2050
+                    Currency = "usd",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = item.Product.Title
+                    }
+                },
+                Quantity = item.Count
+            };
+            options.LineItems.Add(sessionLineItem);
+        }
+
+
+        var service = new SessionService();
+        Session session = service.Create(options);
+        _unitOfWork.OrderHeader.UpdateStripePaymentID(OrderVm.OrderHeader.Id, session.Id, session.PaymentIntentId);
+        _unitOfWork.Save();
+        Response.Headers.Add("Location", session.Url);
+        return new StatusCodeResult(303);
+
+    }
+    
+    public IActionResult PaymentConfirmation(int orderHeaderId) {
+
+        OrderHeader orderHeader = _unitOfWork.OrderHeader
+            .Get(u => u.Id == orderHeaderId);
+        if(orderHeader.PaymentStatus== Sd.PaymentStatusDelayedPayment) {
+            //this is an order by company
+
+            var service = new SessionService();
+            Session session = service.Get(orderHeader.SectionId);
+
+            if (session.PaymentStatus.ToLower() == "paid") {
+                _unitOfWork.OrderHeader.UpdateStripePaymentID(orderHeaderId, session.Id, session.PaymentIntentId);
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeaderId,orderHeader.OrderStatus,  Sd.PaymentStatusApproved);
+                _unitOfWork.Save();
+            }
+            //HttpContext.Session.Clear();
+
+        }
+        return View(orderHeaderId);
+    }
+ 
     #region API Call
 
     [HttpGet]
