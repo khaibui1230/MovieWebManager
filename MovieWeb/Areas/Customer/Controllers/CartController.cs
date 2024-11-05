@@ -182,7 +182,7 @@ namespace MovieWeb.Areas.Customer.Controllers
                     _unitOfWork.OrderHeader.UpdateStatus(id, Sd.StatusApproved, Sd.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
-                //HttpContext.Session.Clear();
+                HttpContext.Session.Clear();
             }
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
