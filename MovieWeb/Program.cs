@@ -27,6 +27,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+//Add the service of Facebook authentication
+builder.Services.AddAuthentication().AddFacebook(options =>
+    {
+        options.AppId = "1244748133610574";
+        options.AppSecret = "8776502d8059add4201d59cbe7a498e5";
+    }
+);
+
 // add the cookies for the web
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -34,7 +42,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
- 
+
 // Add the Session services
 // Add session services
 builder.Services.AddDistributedMemoryCache(); // Required for session
@@ -56,7 +64,7 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (! app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
